@@ -18,7 +18,10 @@ let project = Project(
             ),
             sources: ["EkyPOSLocal/Sources/**"],
             resources: ["EkyPOSLocal/Resources/**"],
-            dependencies: []
+            dependencies: [
+                .external(name: "Alamofire"),
+                .external(name: "Kingfisher"),
+            ]
         ),
         .target(
             name: "EkyPOSLocalTests",

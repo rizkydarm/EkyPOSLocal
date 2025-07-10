@@ -16,7 +16,9 @@ let package = Package(
     name: "EkyPOSLocal",
     dependencies: [
         // Add your own dependencies here:
-        // .package(url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
+        .package(url: "https://github.com/Alamofire/Alamofire", from: "5.10.2"),
+        .package(url: "https://github.com/onevcat/Kingfisher", from: "8.4.0"),
         // You can read more about dependencies here: https://docs.tuist.io/documentation/tuist/dependencies
     ]
 )
+
