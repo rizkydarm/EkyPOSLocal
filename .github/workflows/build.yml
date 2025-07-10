@@ -15,7 +15,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Tuist
-        run: brew install tuist@4.50.2
+        run: |
+          brew tap tuist/tuist
+          brew install --formula tuist@4.50.2
 
       - name: Install dependencies
         run: |
