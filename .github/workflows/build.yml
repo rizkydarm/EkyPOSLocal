@@ -26,10 +26,11 @@ jobs:
           brew tap tuist/tuist
           brew install --formula tuist@4.50.2
 
-      - name: Install dependencies & generate workspace
-        run: |
-          tuist install
-          tuist generate
+      - name: Install dependencies
+        run: tuist install
+      
+      - name: Generate workspace
+        run: tuist generate
 
       - name: Build iOS app (Debug)
         run: |
