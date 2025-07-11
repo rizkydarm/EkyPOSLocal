@@ -14,12 +14,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode version
-        run: |
-          ls /Applications | grep Xcode
-          latest_xcode=$(ls -1d /Applications/Xcode*.app | sort -V | tail -n1)
-          echo "Selecting Xcode at $latest_xcode"
-          sudo xcode-select -s "$latest_xcode"
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
 
       - name: Install Tuist
         run: |
@@ -30,14 +28,21 @@ jobs:
         run: tuist install
       
       - name: Generate workspace
+        env:
+          TUIST_CONFIG_TOKEN: tuist_0197f7a6-2517-73dd-9ff2-247867d2089d_E35gRL8EriyM6ssxrNW6sUlEFHE=
+          CI: 1
         run: tuist generate
 
       - name: Build iOS app (Debug)
         run: |
-          xcodebuild \
+          SKIP_LINT=1 \
+            xcodebuild build \
+            ARCHS\=arm64 VALID_ARCHS\=arm64 ONLY_ACTIVE_ARCH\=NO \
             -workspace EkyPOSLocal.xcworkspace \
             -scheme EkyPOSLocal \
             -configuration Debug \
-            -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.2' \
-            build
+            -destination 'platform=iOS Simulator,OS=17.4,name=iPhone 15' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            -allowProvisioningUpdates \
+            | xcbeautify
