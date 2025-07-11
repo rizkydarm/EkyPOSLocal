@@ -15,7 +15,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_16.3.app
+        run: |
+          ls /Applications | grep Xcode
+          latest_xcode=$(ls -1d /Applications/Xcode*.app | sort -V | tail -n1)
+          echo "Selecting Xcode at $latest_xcode"
+          sudo xcode-select -s "$latest_xcode"
 
       - name: Install Tuist
         run: |
